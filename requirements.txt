@@ -1,0 +1,10 @@
+numpy
+pandas
+matplotlib
+plotly
+seaborn
+Flask
+pandas
+scikit-learn
+mysql-connector-python
+numpy

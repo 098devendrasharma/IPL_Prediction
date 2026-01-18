@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Win Predictor</title>
+    <style>
+        :root { --primary: #2ecc71; --dark: #2c3e50; --light: #ecf0f1; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--light); display: flex; justify-content: center; padding: 40px 20px; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
+        h1 { text-align: center; color: var(--dark); margin-bottom: 30px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+        select, input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 6px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        button:hover { background: #27ae60; }
+        .result { margin-top: 25px; padding: 20px; background: #d4edda; border-radius: 6px; text-align: center; color: #155724; font-size: 1.2em; font-weight: bold; border: 1px solid #c3e6cb; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>IPL Win Predictor</h1>
+    
+    <form action="/predict" method="POST">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Batting Team</label>
+                <select name="batting_team" required>
+                    <option value="" selected disabled>Select Batting Team</option>
+                    {% for team in teams %}
+                    <option value="{{ team }}">{{ team }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Bowling Team</label>
+                <select name="bowling_team" required>
+                    <option value="" selected disabled>Select Bowling Team</option>
+                    {% for team in teams %}
+                    <option value="{{ team }}">{{ team }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group full-width">
+                <label>Host City</label>
+                <select name="city" required>
+                    <option value="" selected disabled>Select City</option>
+                    {% for city in cities %}
+                    <option value="{{ city }}">{{ city }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Target Runs</label>
+                <input type="number" name="target" placeholder="Total Target" required>
+            </div>
+
+            <div class="form-group">
+                <label>Current Score</label>
+                <input type="number" name="score" placeholder="Runs Scored" required>
+            </div>
+
+            <div class="form-group">
+                <label>Overs Completed</label>
+                <input type="number" step="0.1" name="overs" placeholder="e.g. 12.4" required>
+            </div>
+
+            <div class="form-group">
+                <label>Wickets Out</label>
+                <input type="number" name="wickets" min="0" max="10" placeholder="0-10" required>
+            </div>
+        </div>
+
+        <button type="submit">Predict Winning Probability</button>
+    </form>
+
+    {% if result %}
+    <div class="result">
+        {{ result }}
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
